@@ -1,4 +1,3 @@
-
 var HelloWorldLayer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
@@ -81,5 +80,17 @@ var SecondScene = cc.Scene.extend({
         this.scheduleOnce(function(){
             cc.director.runScene(new cc.TransitionTurnOffTiles(2, new HelloWorldScene()));
         }, 5);
+    }
+});
+
+var ThirdScene = cc.Scene.extend({
+    onEnter:function(){
+        this._super();
+        //var ballLayer = new BallLayer();
+        //var ballLayer = new SimpleActionLayer();
+        //var ballLayer = new ComposeActionLayer();
+        //var ballLayer = new TrickyActionLayer();
+        var ballLayer = new ControlActionLayer();
+        this.addChild(ballLayer);
     }
 });

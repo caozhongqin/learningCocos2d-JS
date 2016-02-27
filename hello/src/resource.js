@@ -3,6 +3,7 @@ var res = {
     bg : "bg.jpg",
     item2 : "res/item_2.png",
     item3 : "res/item_3.png",
+    bgMusic : "res/sounds/bgWelcome.mp3"
 };
 
 var g_resources = [];

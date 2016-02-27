@@ -69,7 +69,11 @@ cc.game.onStart = function(){
     cc.view.resizeWithBrowserSize(true);
     //load resources
     cc.LoaderScene.preload(g_resources, function () {
-        cc.director.runScene(new HelloWorldScene());
+        cc.director.runScene(new ThirdScene());
     }, this);
 };
 cc.game.run();
+
+var trace = function(){
+    cc.log(Array.prototype.join.call(arguments, ", "));
+}
