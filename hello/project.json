@@ -14,6 +14,6 @@
     "jsList" : [
         "src/resource.js",
         "src/app.js",
-        "src/whg/ch04.js"
+        "src/whg/ch06.js"
     ]
 }

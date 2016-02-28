@@ -2,6 +2,18 @@
  * Created by Administrator on 2016/2/24.
  */
 
+var Chapter04Scene = cc.Scene.extend({
+    onEnter:function(){
+        this._super();
+        //var ballLayer = new BallLayer();
+        //var ballLayer = new SimpleActionLayer();
+        //var ballLayer = new ComposeActionLayer();
+        //var ballLayer = new TrickyActionLayer();
+        var ballLayer = new ControlActionLayer();
+        this.addChild(ballLayer);
+    }
+});
+
 var BallLayer = cc.Layer.extend({
     deltaX:1,
     ball:null,
