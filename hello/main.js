@@ -73,7 +73,8 @@ cc.game.onStart = function(){
         //cc.director.runScene(new Chapter03Scene());
         //cc.director.runScene(new Chapter04Scene());
         //cc.director.runScene(new Chapter05Scene());
-        cc.director.runScene(new Chapter06Scene());
+        //cc.director.runScene(new Chapter06Scene());
+        cc.director.runScene(new Chapter07Scene());
     }, this);
 };
 cc.game.run();
