@@ -5,9 +5,15 @@
 var Chapter07Scene = cc.Scene.extend({
     onEnter:function(){
         this._super();
+
+        var layerGradient = new cc.LayerGradient(cc.color(255, 0, 0), cc.color(0, 0, 255));
+        this.addChild(layerGradient, 0);
+
         //this.addChild(new MenuItemSpriteLayer());
         //this.addChild(new MenuItemFontLayer());
-        this.addChild(new MenuItemToggleLayer());
+        //this.addChild(new MenuItemToggleLayer());
+        //this.addChild(new MenuLayer());
+        this.addChild(new TTFLayer());
     }
 });
 
@@ -137,4 +143,46 @@ var MenuItemToggleLayer = cc.Layer.extend({
             trace("unschedule(this.decrMusicVolume)");
         }
     },
+});
+
+var MenuLayer = cc.Layer.extend({
+    ctor:function(){
+        this._super();
+
+        cc.MenuItemFont.setFontName("Arial");
+        cc.MenuItemFont.setFontSize(24);
+
+        var one = new cc.MenuItemFont("one", this.clickHandler);
+        var two = new cc.MenuItemFont("two", this.clickHandler);
+        var three = new cc.MenuItemFont("three", this.clickHandler);
+        var four = new cc.MenuItemFont("four", this.clickHandler);
+        var five = new cc.MenuItemFont("five", this.clickHandler);
+        var six = new cc.MenuItemFont("six", this.clickHandler);
+        var menu = new cc.Menu(one, two, three, four, five, six);
+
+        //menu.alignItemsVertically();
+        menu.alignItemsVerticallyWithPadding(50);
+        this.addChild(menu, 1)
+
+        return true;
+    },
+    clickHandler:function(){
+
+    }
+});
+
+var TTFLayer = cc.Layer.extend({
+    ctor:function(){
+        this._super();
+
+        var size = cc.director.getWinSize();
+        var aboutText = new cc.LabelTTF("About the game ... ", "Arial", 30,
+            cc.size(350, 200), cc.TEXT_ALIGNMENT_LEFT, cc.VERTICAL_TEXT_ALIGNMENT_TOP);
+        aboutText.x = size.width/2;
+        aboutText.y = size.height/2;
+        aboutText.color = cc.color(0, 255, 0);
+        this.addChild(aboutText);
+
+        return true;
+    }
 });
