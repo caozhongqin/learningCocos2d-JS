@@ -6,6 +6,8 @@ var res = {
     candy4 : "res/4.png",
     candy5 : "res/5.png",
     bg : "res/bg.png",
+    fallMp3 : "res/fall.mp3",
+    scoreMp3 : "res/score.mp3",
 };
 
 var g_resources = [];

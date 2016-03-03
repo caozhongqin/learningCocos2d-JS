@@ -160,6 +160,8 @@ var GameLayer = cc.Layer.extend({
         }
 
         this.score += joinCandys.length * joinCandys.length;
+        cc.audioEngine.playEffect(res.scoreMp3, false);
+
         this._generateNewCandy();
         this._checkSuccessOrFail();
     },
@@ -214,6 +216,7 @@ var GameLayer = cc.Layer.extend({
 
     _finishCandyFall:function(){
         this.moving = false;
+        cc.audioEngine.playEffect(res.fallMp3, false);
     },
 
     _checkSuccessOrFail:function(){
