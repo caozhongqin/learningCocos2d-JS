@@ -9,8 +9,13 @@ var Candy = cc.Sprite.extend({
     row:0,
 
     ctor:function(type, column, row){
-        this._super(res["candy"+(type+1)]);
+        //注释掉是因为使用o["name"]访问属性的方式在使用
+        //release --advanced发布高级压缩JS时会出错
+        //this._super(res["candy"+(type+1)]);
+        this._super("res/"+(type+1)+".png");
+
         this.init(type, column, row);
+
         return true;
     },
 
@@ -22,6 +27,7 @@ var Candy = cc.Sprite.extend({
 
 });
 
+/** @expose */
 Candy.createRandomType = function(column, row){
     return new Candy(parseInt(Math.random()*Constant.CANDY_TYPE_COUNT), column, row);
 };

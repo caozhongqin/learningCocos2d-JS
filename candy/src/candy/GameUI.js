@@ -24,10 +24,10 @@ var GameUI = cc.Layer.extend({
     },
 
     _initUI:function(){
-        this.levelText = this._initLabelAndText("Level", "1", 100);
-        this.scoreText = this._initLabelAndText("Score", "0", 270);
-        this.targetText = this._initLabelAndText("Target", "0", 450);
-        this.stepText = this._initLabelAndText("Step", "0", 620);
+        this.levelText = this._initLabelAndText("当前关卡", "1", 80);
+        this.scoreText = this._initLabelAndText("当前分数", "0", 270);
+        this.targetText = this._initLabelAndText("目标分数", "0", 450);
+        this.stepText = this._initLabelAndText("剩余步数", "0", 640);
     },
 
     _initLabelAndText:function(l, t, x){
@@ -58,11 +58,11 @@ var GameUI = cc.Layer.extend({
     },
 
     showSuccess:function(){
-        this._showMsg("恭喜，通过第"+this.gameLayer.level+"关，\n剩余步数30倍奖励！");
+        this._showMsg("恭喜通过第"+this.gameLayer.level+"关！\n剩余步数30倍奖励！");
     },
 
     showFail:function(){
-        this._showMsg("第"+this.gameLayer.level+"关失败了！\n请从头来过吧！");
+        this._showMsg("败北于第"+this.gameLayer.level+"关！\n请从头来过吧！");
     },
 
     _showMsg:function(s){
