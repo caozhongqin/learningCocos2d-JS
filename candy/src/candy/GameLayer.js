@@ -177,8 +177,13 @@ var GameLayer = cc.Layer.extend({
     },
 
     _checkCandyExist:function(column, row){
-        return this.candy[column] && this.candy[column][row];
+        //return this.candy[column] && this.candy[column][row];
         //return this.candy[column][row] != null;
+
+        if(column >= 0 && column < Constant.CANDY_SIZE && row >= 0 && row < Constant.CANDY_SIZE){
+            return true;
+        }
+        return false;
     },
 
     _generateNewCandy:function(){
