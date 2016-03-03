@@ -18,6 +18,7 @@
         "src/candy/Constant.js",
         "src/candy/Storage.js",
         "src/candy/GameUI.js",
-        "src/candy/Candy.js"
+        "src/candy/Candy.js",
+        "src/candy/GameLayer.js"
     ]
 }

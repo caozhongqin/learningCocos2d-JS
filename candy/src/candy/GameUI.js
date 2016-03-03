@@ -6,7 +6,11 @@ var GameUI = cc.Layer.extend({
 
     levelText:null,
     scoreText:null,
+    targetText:null,
     stepText:null,
+
+    initStatic:false,
+
     gameLayer:null,
 
     ctor:function(gameLayer){
@@ -21,8 +25,9 @@ var GameUI = cc.Layer.extend({
 
     _initUI:function(){
         this.levelText = this._initLabelAndText("Level", "1", 100);
-        this.scoreText = this._initLabelAndText("Score", "1", 370);
-        this.stepText = this._initLabelAndText("Step", "1", 620);
+        this.scoreText = this._initLabelAndText("Score", "0", 270);
+        this.targetText = this._initLabelAndText("Target", "0", 450);
+        this.stepText = this._initLabelAndText("Step", "0", 620);
     },
 
     _initLabelAndText:function(l, t, x){
@@ -43,13 +48,25 @@ var GameUI = cc.Layer.extend({
     },
 
     update:function(){
-        this.levelText.setString(this.gameLayer.level+"");
+        if(!this.initStatic){
+            this.levelText.setString(this.gameLayer.level+"");
+            this.targetText.setString(this.gameLayer.targetScore+"");
+            this.initStatic = true;
+        }
         this.scoreText.setString(this.gameLayer.score+"");
         this.stepText.setString((this.gameLayer.limitStep - this.gameLayer.steps)+"");
     },
 
-    showMsg:function(s){
-        var bg = new cc.LayerColor(cc.color(255, 255, 255), 500);
+    showSuccess:function(){
+        this._showMsg("恭喜，通过第"+this.gameLayer.level+"关，\n剩余步数30倍奖励！");
+    },
+
+    showFail:function(){
+        this._showMsg("第"+this.gameLayer.level+"关失败了！\n请从头来过吧！");
+    },
+
+    _showMsg:function(s){
+        var bg = new cc.LayerColor(cc.color(255, 255, 255), 500, 500);
         this.addChild(bg, 1);
 
         var size = cc.director.getWinSize();
