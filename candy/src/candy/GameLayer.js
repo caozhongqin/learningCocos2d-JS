@@ -38,7 +38,7 @@ var GameLayer = cc.Layer.extend({
 
     _initCandyPanel:function(){
         var size = cc.winSize;
-        var clippingPanel = new cc.ClippingNode();
+        var clippingPanel = new cc.ClippingNode();  //加入一层遮罩节点
         this.addChild(clippingPanel, 2);
 
         this.candyPanel = new cc.Layer();
@@ -52,7 +52,7 @@ var GameLayer = cc.Layer.extend({
             cc.p(this.candyPanel.x + Constant.CANDY_WIDTH*Constant.CANDY_SIZE, this.candyPanel.y + Constant.CANDY_WIDTH*Constant.CANDY_SIZE),
             cc.color(0, 0, 0), cc.color(0, 0, 0)
         );
-        clippingPanel.stencil = stencil;
+        clippingPanel.stencil = stencil;    //设置遮罩节点的裁剪矩形范围
     },
 
     _initCandy:function(){
@@ -68,18 +68,6 @@ var GameLayer = cc.Layer.extend({
             }
             this.candy.push(column);
         }
-
-        /*
-         var sum = 0;
-         for(var e1 in this.candy){
-         trace(e1);
-         for(var e2 in this.candy[e1]){
-         trace(e2);
-         sum++;
-         }
-         }
-         trace("sum="+sum);
-         */
     },
 
     _initGameUI:function(){
@@ -208,13 +196,14 @@ var GameLayer = cc.Layer.extend({
                         }
                         var fall = cc.moveTo(duration, candy.x, candy.y-Constant.CANDY_WIDTH*fallLength).easing(cc.easeIn(2));
                         candy.runAction(fall);
-                        candy.row -= fallLength;
-                        this.candy[i][j] = null;
+                        candy.row -= fallLength;    //下移行数，即掉落下来补充已经被消除的元素
+                        this.candy[i][j] = null;    //因为已经把当前元素下移了，所以当前元素置为空null
                         this.candy[i][candy.row] = candy;
                     }
                 }
             }
 
+            //移除超出地图的临时元素位置
             for(var j=this.candy[i].length; j>=Constant.CANDY_SIZE;j--){
                 this.candy[i].splice(j, 1);
             }
