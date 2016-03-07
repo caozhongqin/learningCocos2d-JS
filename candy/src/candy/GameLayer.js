@@ -19,6 +19,7 @@ var GameLayer = cc.Layer.extend({
         this._super();
 
         this._initBg();
+        this._initSpriteSheet();
         this._initCandyPanel();
         this._initCandy();
         this._initGameUI();
@@ -26,6 +27,10 @@ var GameLayer = cc.Layer.extend({
         this._initEventHandler();
 
         return true;
+    },
+
+    _initSpriteSheet:function(){
+        cc.spriteFrameCache.addSpriteFrames(res.candys);
     },
 
     _initBg:function(){
@@ -41,7 +46,8 @@ var GameLayer = cc.Layer.extend({
         var clippingPanel = new cc.ClippingNode();  //加入一层遮罩节点
         this.addChild(clippingPanel, 2);
 
-        this.candyPanel = new cc.Layer();
+        //this.candyPanel = new cc.Layer();
+        this.candyPanel = new cc.SpriteBatchNode(res.candysPng);
         this.candyPanel.x = (size.width - Constant.CANDY_WIDTH*Constant.CANDY_SIZE) / 2;
         this.candyPanel.y = (size.height - Constant.CANDY_WIDTH*Constant.CANDY_SIZE) / 2;
         clippingPanel.addChild(this.candyPanel, 1);

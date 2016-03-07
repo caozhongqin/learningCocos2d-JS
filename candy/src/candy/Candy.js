@@ -12,7 +12,11 @@ var Candy = cc.Sprite.extend({
         //注释掉是因为使用o["name"]访问属性的方式在使用
         //release --advanced发布高级压缩JS时会出错
         //this._super(res["candy"+(type+1)]);
-        this._super("res/"+(type+1)+".png");
+
+        //利用SpriteSheet缓存到内存后使用#号+图片名称获取
+        //this._super("res/"+(type+1)+".png");
+
+        this._super("#"+(type+1)+".png");
 
         this.init(type, column, row);
 
