@@ -14,6 +14,6 @@
     "jsList" : [
         "src/resource.js",
         "src/app.js",
-        "src/whg/ch12.js"
+        "src/whg/http.js"
     ]
 }

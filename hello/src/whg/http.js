@@ -27,11 +27,22 @@ var HttpLayer = cc.Layer.extend({
         statusGetLabel.setString("Status: Send Get Request to httpbin.org");
 
         //set arguments with <URL>?xxx=xxx&yyy=yyy
-        //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/testController/test.hlhtml", true);
-        xhr.open("GET", "http://192.168.80.83:8077/huaTeng/testController/test2.hlhtml?userName=测试123qwer", true);
+        //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/testController/test.ht", true);
+
+        //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/testController/test2.ht?userName=测试123qwer", true);
+        xhr.open("POST", "http://192.168.80.83:8077/huaTeng/testController/test2.ht", true);
+        //xhr.open("POST", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht", true);
+
+        //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht?requestInfoStr={\"openid\":\"whg333\"}", true);
+        //xhr.open("POST", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht");
+
+        //xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        //xhr.setRequestHeader("authSecret","3c40803264a0195a_404870");
+        //xhr.setRequestHeader("idf_c_key","");
 
         //set Content-type "text/plain;charset=UTF-8" to post plain text
-        xhr.setRequestHeader("Content-Type","text/plain;charset=UTF-8");
+        //xhr.setRequestHeader("Content-Type","text/plain;charset=UTF-8");
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 
         var that = this;
         xhr.onreadystatechange = function () {
@@ -50,8 +61,38 @@ var HttpLayer = cc.Layer.extend({
                 statusGetLabel.setString("Status: Got GET response! " + httpStatus);
             }
         };
-        xhr.send();
+
+        var data = {
+            userName:"测试123qwer",
+            userId:"100123",
+        };
+
+        //var data = {
+        //    requestInfoStr:"{\"openid\":\"whg333\"}"
+        //};
+
+        //var data = "userName=测试123qwer&userId=100123";
+        trace(data);
+
+        //xhr.send();
+        xhr.send(requestParam(data));
 
         return true;
     }
 });
+
+function requestParam(data){
+    if(typeof(data) == "string"){
+        return data;
+    }
+    var result = [];
+    for(e in data){
+        result.push(e+"="+data[e]);
+    }
+    return result.join("&");
+}
+
+isJson = function(obj){
+    var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
+    return isjson;
+}

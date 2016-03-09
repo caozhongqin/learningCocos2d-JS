@@ -76,11 +76,11 @@ cc.game.onStart = function(){
         //cc.director.runScene(new Chapter06Scene());
         //cc.director.runScene(new Chapter07Scene());
 
-        //cc.director.runScene(new HttpScene());
+        cc.director.runScene(new HttpScene());
 
         //cc.director.runScene(new Chapter10Scene());
         //cc.director.runScene(new Chapter11Scene());
-        cc.director.runScene(new Chapter12Scene());
+        //cc.director.runScene(new Chapter12Scene());
     }, this);
 };
 cc.game.run();
