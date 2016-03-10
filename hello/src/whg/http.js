@@ -30,15 +30,17 @@ var HttpLayer = cc.Layer.extend({
         //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/testController/test.ht", true);
 
         //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/testController/test2.ht?userName=测试123qwer", true);
-        xhr.open("POST", "http://192.168.80.83:8077/huaTeng/testController/test2.ht", true);
+        //xhr.open("POST", "http://192.168.80.83:8077/huaTeng/testController/test2.ht", true);
         //xhr.open("POST", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht", true);
 
         //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht?requestInfoStr={\"openid\":\"whg333\"}", true);
-        //xhr.open("POST", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht");
+
+        //xhr.open("POST", "http://192.168.80.83:8080/huaTeng/userController/getUserInfo.ht");
+        xhr.open("POST", "http://192.168.80.83:8077/huaTeng/userController/rename.ht");
 
         //xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-        //xhr.setRequestHeader("authSecret","3c40803264a0195a_404870");
-        //xhr.setRequestHeader("idf_c_key","");
+        xhr.setRequestHeader("ht_auth_secret","003964663fccb7d9_404883");
+        xhr.setRequestHeader("ht_idf_c_key","");
 
         //set Content-type "text/plain;charset=UTF-8" to post plain text
         //xhr.setRequestHeader("Content-Type","text/plain;charset=UTF-8");
@@ -62,9 +64,14 @@ var HttpLayer = cc.Layer.extend({
             }
         };
 
+        //var data = {
+        //    userName:"测试123qwer",
+        //    userId:"100123",
+        //};
+
         var data = {
-            userName:"测试123qwer",
-            userId:"100123",
+            userIdStr:"10004",
+            name:"whg10333",
         };
 
         //var data = {
