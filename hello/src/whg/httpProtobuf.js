@@ -17,8 +17,8 @@ var HttpProtobufLayer = cc.Layer.extend({
     ctor:function(){
         this._super();
 
-        //this.postTestProtobuf();
-        this.postTestProtobuf2();
+        this.postTestProtobuf();
+        //this.postTestProtobuf2();
 
         return true;
     },
@@ -37,7 +37,7 @@ var HttpProtobufLayer = cc.Layer.extend({
         //set arguments with <URL>?xxx=xxx&yyy=yyy
         //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht?requestInfoStr={\"openid\":\"whg333\"}", true);
 
-        xhr.open("POST", "http://192.168.90.10:8077/huaTeng/testController/protobuf.proto");
+        xhr.open("POST", "http://192.168.90.10:8080/huaTeng/testController/protobuf.proto");
 
         //xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
         //xhr.setRequestHeader("ht_auth_secret","003964663fccb7d9_404883");
@@ -148,7 +148,7 @@ var HttpProtobufLayer = cc.Layer.extend({
         //set arguments with <URL>?xxx=xxx&yyy=yyy
         //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht?requestInfoStr={\"openid\":\"whg333\"}", true);
 
-        xhr.open("POST", "http://192.168.90.10:8077/huaTeng/testController/protobuf2.proto");
+        xhr.open("POST", "http://192.168.90.10:8080/huaTeng/testController/protobuf2.proto");
 
         //xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
         //xhr.setRequestHeader("ht_auth_secret","003964663fccb7d9_404883");
