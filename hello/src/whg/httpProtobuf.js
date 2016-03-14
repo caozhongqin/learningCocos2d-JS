@@ -13,12 +13,22 @@ var HttpProtobufScene = cc.Scene.extend({
     }
 });
 
+XMLHttpRequest.prototype.sendAsBinary = function(datastr) {
+    function byteValue(x) {
+        return x.charCodeAt(0) & 0xff;
+    }
+    var ords = Array.prototype.map.call(datastr, byteValue);
+    var ui8a = new Uint8Array(ords);
+    this.send(ui8a.buffer);
+};
+
 var HttpProtobufLayer = cc.Layer.extend({
     ctor:function(){
         this._super();
 
-        this.postTestProtobuf();
+        //this.postTestProtobuf();
         //this.postTestProtobuf2();
+        this.postSendProtobuf();
 
         return true;
     },
@@ -37,7 +47,7 @@ var HttpProtobufLayer = cc.Layer.extend({
         //set arguments with <URL>?xxx=xxx&yyy=yyy
         //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht?requestInfoStr={\"openid\":\"whg333\"}", true);
 
-        xhr.open("POST", "http://192.168.90.10:8080/huaTeng/testController/protobuf.proto");
+        xhr.open("POST", "http://192.168.90.10:8077/huaTeng/testController/protobuf.proto");
 
         //xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
         //xhr.setRequestHeader("ht_auth_secret","003964663fccb7d9_404883");
@@ -148,7 +158,7 @@ var HttpProtobufLayer = cc.Layer.extend({
         //set arguments with <URL>?xxx=xxx&yyy=yyy
         //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht?requestInfoStr={\"openid\":\"whg333\"}", true);
 
-        xhr.open("POST", "http://192.168.90.10:8080/huaTeng/testController/protobuf2.proto");
+        xhr.open("POST", "http://192.168.90.10:8077/huaTeng/testController/protobuf2.proto");
 
         //xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
         //xhr.setRequestHeader("ht_auth_secret","003964663fccb7d9_404883");
@@ -243,7 +253,121 @@ var HttpProtobufLayer = cc.Layer.extend({
 
         //xhr.send();
         xhr.send(requestParam(data));
+    },
+
+    postSendProtobuf:function(){
+        var winSize = cc.winSize;
+        var xhr = cc.loader.getXMLHttpRequest();
+
+        var statusGetLabel = new cc.LabelTTF("Status:", "Thonburi", 18);
+        //statusGetLabel.setColor(cc.color(0, 255, 0));
+        this.addChild(statusGetLabel, 1);
+        statusGetLabel.x = winSize.width / 2;
+        statusGetLabel.y = winSize.height - 100;
+        statusGetLabel.setString("Status: Send Get Request to httpbin.org");
+
+        //set arguments with <URL>?xxx=xxx&yyy=yyy
+        //xhr.open("GET", "http://192.168.80.83:8077/huaTeng/userController/getUserInfo.ht?requestInfoStr={\"openid\":\"whg333\"}", true);
+
+        xhr.open("POST", "http://192.168.90.10:8077/huaTeng/testController/protobuf3.proto");
+
+        //xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        //xhr.setRequestHeader("ht_auth_secret","003964663fccb7d9_404883");
+        //xhr.setRequestHeader("ht_idf_c_key","");
+
+        //set Content-type "text/plain;charset=UTF-8" to post plain text
+        //xhr.setRequestHeader("Content-Type","text/plain;charset=UTF-8");
+
+        //这个在用POST请求时需要指定以表单形式提交参数
+        //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+        xhr.setRequestHeader("Content-Type","application/x-protobuf");
+
+        //这个代表服务器返回的protobuf协议的数据
+        //对应的spring mvc controller方法返回ResponseEntity<TestProto>且使用ResponseEntity.ok(testProto)
+        xhr.setRequestHeader("Accept","application/x-protobuf");
+
+        //xhr.responseType = "blob";
+        if (xhr.overrideMimeType){
+            //这个是必须的，否则返回的是字符串，导致protobuf解码错误
+            //具体见http://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html
+            xhr.overrideMimeType('text/plain; charset=x-user-defined');
+        }
+
+        var ProtoBuf = dcodeIO.ProtoBuf,
+            ResponseProtocolBuffer = ProtoBuf.loadProtoFile("res/protobuf/ResponseProtoBuf.proto").build("ResponseProtocolBuffer"),
+            TestProto = ResponseProtocolBuffer.TestProto;
+
+        var testProtoData = new TestProto({
+            id:10004,
+            name:"testProtoName测试",
+            rank:13,
+            gold:23425,
+            exp:9527,
+            diamond:321
+        });
+
+        var that = this;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status <= 207)) {
+                var httpStatus = xhr.statusText;
+
+                var data = xhr.responseText;
+                trace(data+" !");
+                trace(typeof data);
+                var response = xhr.responseText + "...";
+
+                var protoResp = TestProto.decode(
+                    /*data*/
+                    str2bytes(data)
+                    /*stringToBytes(data)*/
+                    /*testProtoData.toArrayBuffer()*/
+                );
+                trace(JSON.stringify(protoResp));
+                trace(protoResp.id);
+
+                //var protoResp2 = TestProto.decode(
+                //    /*data*/
+                //    /*str2bytes(data)*/
+                //    stringToBytes(data)
+                //    /*testProtoData.toArrayBuffer()*/
+                //);
+                //trace(JSON.stringify(protoResp2));
+
+                var responseLabel = new cc.LabelTTF("GET Response: \n" + response, "Thonburi", 16);
+                //responseLabel.setColor(cc.color(0, 255, 0));
+                that.addChild(responseLabel, 1);
+                responseLabel.anchorX = 0;
+                responseLabel.anchorY = 1;
+                responseLabel.textAlign = cc.TEXT_ALIGNMENT_LEFT;
+
+                responseLabel.x = 10;
+                responseLabel.y = winSize.height / 2;
+                statusGetLabel.setString("Status: Got GET response! " + httpStatus);
+            }
+        };
+
+        //var data = {
+        //    userName:"测试123qwer",
+        //    userId:"100123",
+        //};
+
+        //var data = {
+        //    userIdStr:"10004",
+        //    name:"whg10333",
+        //};
+
+        var data = {
+            userIdStr:"1234"
+        };
+
+        //var data = "userName=测试123qwer&userId=100123";
+        //trace(data);
+
+        //xhr.send();
+        //xhr.send(requestParam(data));
+        xhr.send(testProtoData.toArrayBuffer());
     }
+
 });
 
 function requestParam(data){
